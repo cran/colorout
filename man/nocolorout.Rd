@@ -2,7 +2,7 @@
 \alias{noColorOut}
 \title{Stop colorizing R output}
 \description{
-  Stop colorizing R output
+  Stop colorizing R output.
 }
 \usage{
 noColorOut()

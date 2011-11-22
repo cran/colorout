@@ -1,3 +1,12 @@
+/* This file is part of colorout R package
+**
+** It is distributed under the GNU General Public License.
+** See the file ../LICENSE for details.
+** 
+** (c) 2011 Jakson Aquino: jalvesaq@gmail.com
+**
+***************************************************************/
+
 
 #include <R.h>  /* to include Rconfig.h */
 
@@ -21,98 +30,32 @@ extern void *ptr_R_WriteConsoleEx;
 static void *save_R_Outputfile;
 static void *save_R_Consolefile;
 
-static char crnormal[16], crnumber[16], crstring[16],
-     crconst[16], crstderr[16], crwarn[16], crerror[16];
+static char crnormal[32], crnumber[32], crstring[32],
+     crconst[32], crstderr[32], crwarn[32], crerror[32];
 static int normalsize, numbersize, stringsize, constsize;
+static int colors_initialized = 0;
+static int colorout_initialized = 0;
 
-void colorout_initColors()
+void colorout_SetColors(char **normal, char **number, char **string,
+        char **constant, char **stderror, char **warn, char **error,
+        int *verbose)
 {
-    strcpy(crnormal, "\033[32m");
-    strcpy(crnumber, "\033[33m");
-    strcpy(crstring, "\033[36m");
-    strcpy(crconst,  "\033[35m");
-    strcpy(crstderr, "\033[34m");
-    strcpy(crwarn,  "\033[1;31m");
-    strcpy(crerror,  "\033[41;37m");
-    normalsize = 5;
-    numbersize = 5;
-    stringsize = 5;
-    constsize  = 5;
-}
+    strcpy(crnormal, normal[0]);
+    strcpy(crnumber, number[0]);
+    strcpy(crstring, string[0]);
+    strcpy(crconst,  constant[0]);
+    strcpy(crstderr, stderror[0]);
+    strcpy(crwarn,   warn[0]);
+    strcpy(crerror,  error[0]);
 
-void colorout_SetColors(int *normal, int *number, int *string, int *constant, int *stderror, int *warn, int *error)
-{
-    /* We use a tmpbuffer because the value of 'normal', 'number', 'string',
-     * and 'constant' are set up in two steps. */
-    char tmpnormal[16];
-    char tmpnumber[16];
-    char tmpstring[16];
-    char tmpconst[16];
-
-    /* There is no need of adding the first element if its value is 0 */
-
-    if(error[0] == 0)
-        snprintf(crerror, 12, "\033[%dm", error[1]);
-    else
-        snprintf(crerror, 12, "\033[%d;%dm", error[0], error[1]);
-
-    if(warn[0] == 0)
-        snprintf(crwarn, 12, "\033[%dm", warn[1]);
-    else
-        snprintf(crwarn, 12, "\033[%d;%dm", warn[0], warn[1]);
-
-    if(stderror[0] == 0)
-        snprintf(crstderr, 12, "\033[%dm", stderror[1]);
-    else
-        snprintf(crstderr, 12, "\033[%d;%dm", stderror[0], stderror[1]);
-
-    if(normal[0] == 0)
-        snprintf(tmpnormal, 12, "\033[%dm", normal[1]);
-    else
-        snprintf(tmpnormal, 12, "\033[%d;%dm", normal[0], normal[1]);
-
-    if(number[0] == 0)
-        snprintf(tmpnumber, 12, "\033[%dm", number[1]);
-    else
-        snprintf(tmpnumber, 12, "\033[%d;%dm", number[0], number[1]);
-
-    if(string[0] == 0)
-        snprintf(tmpstring, 12, "\033[%dm", string[1]);
-    else
-        snprintf(tmpstring, 12, "\033[%d;%dm", string[0], string[1]);
-
-    if(constant[0] == 0)
-        snprintf(tmpconst, 12, "\033[%dm", constant[1]);
-    else
-        snprintf(tmpconst, 12, "\033[%d;%dm", constant[0], constant[1]);
-
-    /* The format of 'normal', 'string', 'number', and 'constant' must be
-     * stopped before starting a new format. This would not be necessary if we
-     * have the '0' in the code above. */
-    if(normal[0] > 0 || string[0] > 0 || constant[0] > 0)
-        snprintf(crnumber, 15, "\033[0m%s", tmpnumber);
-    else
-        strcpy(crnumber, tmpnumber);
-
-    if(number[0] > 0 || string[0] > 0 || constant[0] > 0)
-        snprintf(crnormal, 15, "\033[0m%s", tmpnormal);
-    else
-        strcpy(crnormal, tmpnormal);
-    
-    if(number[0] > 0 || normal[0] > 0 || constant[0] > 0)
-        snprintf(crstring, 15, "\033[0m%s", tmpstring);
-    else
-        strcpy(crstring, tmpstring);
-    
-    if(number[0] > 0 || normal[0] > 0 || string[0] > 0)
-        snprintf(crconst, 15, "\033[0m%s", tmpconst);
-    else
-        strcpy(crconst, tmpconst);
-    
     normalsize = strlen(crnormal);
     numbersize = strlen(crnumber);
     stringsize = strlen(crstring);
     constsize = strlen(crconst);
+
+    if(*verbose)
+      printf("%snormal\033[0m, %snumber\033[0m, %sstring\033[0m, %sconst\033[0m, %sstderror\033[0m, %swarn\033[0m, %serror\033[0m.\n",
+          crnormal, crnumber, crstring, crconst, crstderr, crwarn, crerror);
 }
 
 char *colorout_make_bigger(char *ptr, int *len)
@@ -185,7 +128,7 @@ void colorout_R_WriteConsoleEx (const char *buf, int len, int otype)
     } else {
         l = len + 1024;
         newbuf = (char*)calloc(sizeof(char), l);
-        l -= 16;
+        l -= 64;
         strcpy(newbuf, crnormal);
         i = 0;
         j = normalsize;
@@ -263,14 +206,25 @@ void colorout_R_WriteConsoleEx (const char *buf, int len, int otype)
                 }
                 strcat(newbuf, crnormal);
                 j += normalsize;
-            } else {
+            } else if(i < len && ((bbuf[i] >= 'A' && bbuf[i] <= 'Z')
+                        || (bbuf[i] >= 'a' && bbuf[i] <= 'z') || bbuf[i] == '.' || bbuf[i] == '_' || bbuf[i] > 127)){
+                /* Normal word: get it as a whole */
+                while(i < len && ((bbuf[i] >= '0' && bbuf[i] <= '9') || (bbuf[i] >= 'A' && bbuf[i] <= 'Z') ||
+                            (bbuf[i] >= 'a' && bbuf[i] <= 'z') || bbuf[i] == '.' || bbuf[i] == '_' || bbuf[i] > 127)){
+                    if(j >= l)
+                        newbuf = colorout_make_bigger(newbuf, &l);
+                    newbuf[j] = bbuf[i];
+                    i++;
+                    j++;
+                }
+            } else { /* anything else */
                 newbuf[j] = bbuf[i];
                 i++;
                 j++;
             }
         }
 
-        
+
         if(neednl)
             printf("%s\033[0m\n", newbuf);
         else
@@ -284,17 +238,41 @@ void colorout_R_WriteConsoleEx (const char *buf, int len, int otype)
 
 void colorout_ColorOutput()
 {
-    colorout_initColors();
+    if(colorout_initialized)
+        return;
+
+    if(colors_initialized == 0){
+        strcpy(crnormal, "\033[32m");
+        strcpy(crnumber, "\033[33m");
+        strcpy(crstring, "\033[36m");
+        strcpy(crconst,  "\033[35m");
+        strcpy(crstderr, "\033[34m");
+        strcpy(crwarn,  "\033[1;31m");
+        strcpy(crerror,  "\033[41;37m");
+        normalsize = 5;
+        numbersize = 5;
+        stringsize = 5;
+        constsize  = 5;
+        colors_initialized = 1;
+    }
+
+    /* Replace Rstd_WriteConsoleEx() with colorout_R_WriteConsoleEx().
+     * See R source code: files src/unix/system.c and src/unix/sys-std.c */
     save_R_Outputfile = R_Outputfile;
     save_R_Consolefile = R_Consolefile;
     R_Outputfile = NULL;
     R_Consolefile = NULL;
     ptr_R_WriteConsoleEx = colorout_R_WriteConsoleEx;
     ptr_R_WriteConsole = NULL;
+
+    colorout_initialized = 1;
 }
 
 void colorout_noColorOutput()
 {
-    R_Outputfile = save_R_Outputfile;
-    R_Consolefile = save_R_Consolefile;
+    if(colorout_initialized){
+        R_Outputfile = save_R_Outputfile;
+        R_Consolefile = save_R_Consolefile;
+        colorout_initialized = 0;
+    }
 }

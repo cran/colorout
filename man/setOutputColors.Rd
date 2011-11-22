@@ -2,12 +2,12 @@
 \alias{setOutputColors}
 \title{Set the colors to be used on R output}
 \description{
-  Set the output colors to be used R is running in a terminal emulator.
+  Set the output colors to be used if R is running in a terminal emulator.
 }
 \usage{
-setOutputColors(normal = c(0, 32), number = c(0, 33), string = c(0, 36),
-                const = c(0, 35), stderror = c(0, 34), warn = c(1, 31),
-                error = c(41, 37))
+setOutputColors(normal = 2, number = 3, string = 6, const = 5,
+                stderror = 4, warn = c(1, 0, 1), error = c(1, 7),
+                verbose = TRUE)
 }
 \arguments{
   \item{normal}{Formating and color of normal text.}
@@ -18,41 +18,36 @@ setOutputColors(normal = c(0, 32), number = c(0, 33), string = c(0, 36),
   \item{stderror}{Formating and color of text sent to stderr.}
   \item{warn}{Formating and color of warnings.}
   \item{error}{Formating and color of errors.}
+  \item{verbose}{Logical value indicating whether to print colored words
+    showing the result of the setup.}
 }
 \details{
-  The function takes four numeric vectors with two elements each. The first one
-  indicates the formating and the second one the color. Strings are colored as
-  errors and warnings if they start with \code{"Error"} or \code{"Warning"}
-  (or their translations, if not running in an English locale).
+  The function takes numeric vectors of at most three elements each. The
+  three numbers indicate, respectively, formating, background color and
+  foreground color. If a vector has only one element, the number will be used
+  to set the foreground color; if it has two elements, they will be used to
+  set the background and foreground colors.
+
+  The table below shows valid values and their meanings as both formating and
+  color codes (some formating codes do not work properly in some terminal
+  emulators):
  
-  Valid values for either formating or background color are (some codes do not
-  work properly in some terminal emulators):
- 
-  \tabular{lrclr}{
-    Formating         \tab Value \tab Background \tab Value \cr
-    No formating      \tab 0     \tab Black      \tab 40 \cr
-    Bold or bright    \tab 1     \tab Red        \tab 41 \cr
-    Faint             \tab 2     \tab Green      \tab 42 \cr
-    Italic or inverse \tab 3     \tab Yellow     \tab 43 \cr
-    Underline         \tab 4     \tab Blue       \tab 44 \cr
-    Blink slowly      \tab 5     \tab Magenta    \tab 45 \cr
-    Blink quickly     \tab 6     \tab Cyan       \tab 46 \cr
-    Invert            \tab 7     \tab White      \tab 47 \cr
+  \tabular{lll}{
+    Value \tab Formating         \tab Color            \cr
+    0     \tab No formating      \tab Default or black \cr
+    1     \tab Bold or bright    \tab Red              \cr
+    2     \tab Faint             \tab Green            \cr
+    3     \tab Italic or inverse \tab Yellow           \cr
+    4     \tab Underline         \tab Blue             \cr
+    5     \tab Blink slowly      \tab Magenta          \cr
+    6     \tab Blink quickly     \tab Cyan             \cr
+    7     \tab Invert            \tab White            \cr
   }
 
-  Valid color values are: 
-
-  \tabular{lr}{
-    Color   \tab Value \cr
-    Black   \tab 30 \cr
-    Red     \tab 31 \cr
-    Green   \tab 32 \cr
-    Yellow  \tab 33 \cr
-    Blue    \tab 34 \cr
-    Magenta \tab 35 \cr
-    Cyan    \tab 36 \cr
-    White   \tab 37 \cr
-  }
+  Messages are colored as errors and warnings if they start with \code{"Error"}
+  or \code{"Warning"} (or their translations, if not running in an English
+  locale).
+ 
 }
 \value{
   NULL.
@@ -60,3 +55,7 @@ setOutputColors(normal = c(0, 32), number = c(0, 33), string = c(0, 36),
 
 \author{Jakson A. Aquino \email{jalvesaq@gmail.com}}
 
+\examples{
+# Color scheme for white background:
+setOutputColors(4, 5, c(1, 0, 5), 5, 1)
+}

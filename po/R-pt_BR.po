@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: colorout 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-18 03:26-0300\n"
-"PO-Revision-Date: 2011-11-18 00:22-0300\n"
+"POT-Creation-Date: 2011-11-21 19:30-0300\n"
+"PO-Revision-Date: 2011-11-20 10:26-0300\n"
 "Last-Translator: Jakson Aquino <jalvesaq@gmail.com>\n"
 "Language-Team: pt <pt@li.org>\n"
 "Language: \n"
@@ -16,16 +16,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: colorout/R/colorout.R:21 colorout/R/colorout.R:33
+#: colorout/R/colorout.R:43
 #, c-format
 msgid ""
-"It seems that your terminal does not support ANSI escape codes.\n"
+"The R output will not be colorized because it seems that your terminal does "
+"not support ANSI escape codes.\n"
 "Sys.getenv('TERM') returned '%s'."
 msgstr ""
-"Aparentemente o seu terminal não suporta códigos de escape ANSI.\n"
+"O output do R não será colorido porque o seu terminal pode não suportar "
+"códigos de escape ANSI.\n"
 "Sys.getenv('TERM') retornou '%s'."
 
-#: colorout/R/colorout.R:50
-msgid "All values must be numbers corresponding to ANSI escape code."
+#: colorout/R/colorout.R:55
+msgid ""
+"Please, do ?ColorOut to know how to enable the colorizing of R output on "
+"Emacs+ESS."
 msgstr ""
-"Todos os valores devem ser números correspondentes a códigos de escape ANSI."
+"Por favor, digite ?ColorOut para saber como habilitar o colorimento de "
+"output do R no Emacs+ESS."
+
+#: colorout/R/colorout.R:66
+msgid "The output colorization was canceled."
+msgstr "A colorização do output foi cancelada."
+
+#: colorout/R/colorout.R:85 colorout/R/colorout.R:87 colorout/R/colorout.R:89
+#: colorout/R/colorout.R:91 colorout/R/colorout.R:93 colorout/R/colorout.R:95
+#: colorout/R/colorout.R:97 colorout/R/colorout.R:204
+#: colorout/R/colorout.R:206 colorout/R/colorout.R:208
+#: colorout/R/colorout.R:210 colorout/R/colorout.R:212
+#: colorout/R/colorout.R:214 colorout/R/colorout.R:216
+#, c-format
+msgid "The value of '%s' must be a number correspoding to an ANSI escape code."
+msgstr ""
+"O valor de '%s' deve ser um número correspondente a um código escape ANSI."
+
+#: colorout/R/colorout.R:99 colorout/R/colorout.R:218
+msgid "'verbose' must be of mode 'logical'."
+msgstr "'verbose' deve ser do tipo 'logical'."

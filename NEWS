@@ -1,4 +1,13 @@
+Version 0.9-3 (2011-11-22)
+
+    - New functions to support 256 colors: setOutputColors256() and
+      show256Colors().
+
+    - Possibility of working with Emacs/ESS, but with issues: no 256 colors
+      and conflict with ESS autocompletion mecanism.
+
+    - Fix warning on unloadNamespace() called by R CMD check.
+
 Version 0.9-0 (2011-11-19)
---------------------------
 
     - Initial release.

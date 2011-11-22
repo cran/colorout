@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-18 03:26-0300\n"
+"POT-Creation-Date: 2011-11-21 19:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: colorout/src/colorout.c:123
+#: colorout/src/colorout.c:98
 msgid "Warning"
 msgstr ""
 
-#: colorout/src/colorout.c:125
+#: colorout/src/colorout.c:100
 msgid "WARNING"
 msgstr ""
 
-#: colorout/src/colorout.c:129
+#: colorout/src/colorout.c:106
 msgid "Error"
 msgstr ""
 
-#: colorout/src/colorout.c:131
+#: colorout/src/colorout.c:108
 msgid "ERROR"
 msgstr ""
