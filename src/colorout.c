@@ -29,6 +29,8 @@ extern void *ptr_R_WriteConsoleEx;
 
 static void *save_R_Outputfile;
 static void *save_R_Consolefile;
+static void *save_ptr_R_WriteConsole;
+static void *save_ptr_R_WriteConsoleEx;
 
 static char crnormal[32], crnumber[32], crstring[32],
      crconst[32], crstderr[32], crwarn[32], crerror[32];
@@ -260,10 +262,13 @@ void colorout_ColorOutput()
      * See R source code: files src/unix/system.c and src/unix/sys-std.c */
     save_R_Outputfile = R_Outputfile;
     save_R_Consolefile = R_Consolefile;
+    save_ptr_R_WriteConsole = ptr_R_WriteConsole;
+    save_ptr_R_WriteConsoleEx = ptr_R_WriteConsoleEx;
+
     R_Outputfile = NULL;
     R_Consolefile = NULL;
-    ptr_R_WriteConsoleEx = colorout_R_WriteConsoleEx;
     ptr_R_WriteConsole = NULL;
+    ptr_R_WriteConsoleEx = colorout_R_WriteConsoleEx;
 
     colorout_initialized = 1;
 }
@@ -273,6 +278,8 @@ void colorout_noColorOutput()
     if(colorout_initialized){
         R_Outputfile = save_R_Outputfile;
         R_Consolefile = save_R_Consolefile;
+        ptr_R_WriteConsole = save_ptr_R_WriteConsole;
+        ptr_R_WriteConsoleEx = save_ptr_R_WriteConsoleEx;
         colorout_initialized = 0;
     }
 }

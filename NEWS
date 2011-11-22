@@ -1,3 +1,11 @@
+Version 0.9-4 (2011-11-22)
+
+    - Follow the documentation and do not colorize the output on load if
+      Sys.getenv("TERM") == "".
+
+    - Do not crash JGR, RStudio and other GUIs when unloading the 'colorout'
+      namespace.
+
 Version 0.9-3 (2011-11-22)
 
     - New functions to support 256 colors: setOutputColors256() and

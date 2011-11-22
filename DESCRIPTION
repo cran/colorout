@@ -1,5 +1,5 @@
 Package: colorout
-Version: 0.9-3
+Version: 0.9-4
 Date: 2011-11-22
 Title: Colorize R output on terminal emulators
 Author: Jakson Aquino
@@ -17,6 +17,6 @@ Description: Colorize R output when it is running on a terminal emulator.
    running in interactive mode. Screenshot:
    http://www.lepem.ufc.br/jaa/R_color_output.png
 License: GPL (>= 2)
-Packaged: 2011-11-22 11:41:52 UTC; root
+Packaged: 2011-11-22 18:37:01 UTC; root
 Repository: CRAN
-Date/Publication: 2011-11-22 12:19:10
+Date/Publication: 2011-11-23 10:21:43

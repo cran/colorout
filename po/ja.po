@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: colorout 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 19:30-0300\n"
+"POT-Creation-Date: 2011-11-22 15:33-0300\n"
 "PO-Revision-Date: 2011-11-16 21:40-0300\n"
 "Last-Translator: Jakson Aquino <jalvesaq@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -16,18 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: colorout/src/colorout.c:98
+#: colorout/src/colorout.c:101
 msgid "Warning"
 msgstr " 警告"
 
-#: colorout/src/colorout.c:100
+#: colorout/src/colorout.c:103
 msgid "WARNING"
 msgstr " 警告"
 
-#: colorout/src/colorout.c:106
+#: colorout/src/colorout.c:109
 msgid "Error"
 msgstr " エラー"
 
-#: colorout/src/colorout.c:108
+#: colorout/src/colorout.c:111
 msgid "ERROR"
 msgstr " エラー"

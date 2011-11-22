@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 19:30-0300\n"
+"POT-Creation-Date: 2011-11-22 15:33-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,26 +25,26 @@ msgid ""
 "Sys.getenv('TERM') returned '%s'."
 msgstr ""
 
-#: colorout/R/colorout.R:55
+#: colorout/R/colorout.R:56
 msgid ""
 "Please, do ?ColorOut to know how to enable the colorizing of R output on "
 "Emacs+ESS."
 msgstr ""
 
-#: colorout/R/colorout.R:66
+#: colorout/R/colorout.R:68
 msgid "The output colorization was canceled."
 msgstr ""
 
-#: colorout/R/colorout.R:85 colorout/R/colorout.R:87 colorout/R/colorout.R:89
-#: colorout/R/colorout.R:91 colorout/R/colorout.R:93 colorout/R/colorout.R:95
-#: colorout/R/colorout.R:97 colorout/R/colorout.R:204
-#: colorout/R/colorout.R:206 colorout/R/colorout.R:208
-#: colorout/R/colorout.R:210 colorout/R/colorout.R:212
-#: colorout/R/colorout.R:214 colorout/R/colorout.R:216
+#: colorout/R/colorout.R:86 colorout/R/colorout.R:88 colorout/R/colorout.R:90
+#: colorout/R/colorout.R:92 colorout/R/colorout.R:94 colorout/R/colorout.R:96
+#: colorout/R/colorout.R:98 colorout/R/colorout.R:205
+#: colorout/R/colorout.R:207 colorout/R/colorout.R:209
+#: colorout/R/colorout.R:211 colorout/R/colorout.R:213
+#: colorout/R/colorout.R:215 colorout/R/colorout.R:217
 #, c-format
 msgid "The value of '%s' must be a number correspoding to an ANSI escape code."
 msgstr ""
 
-#: colorout/R/colorout.R:99 colorout/R/colorout.R:218
+#: colorout/R/colorout.R:100 colorout/R/colorout.R:219
 msgid "'verbose' must be of mode 'logical'."
 msgstr ""

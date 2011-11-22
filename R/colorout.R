@@ -37,20 +37,21 @@ testTermForColorOut <- function(silent = FALSE)
     if(getOption("colorout.anyterm"))
         return(TRUE)
 
-    if(!is.null(Sys.getenv("INSIDE_EMACS")) && getOption("colorout.emacs") == TRUE)
+    if(Sys.getenv("INSIDE_EMACS") != "" && getOption("colorout.emacs") == TRUE)
         return(TRUE)
 
     msg <- sprintf(gettext("The R output will not be colorized because it seems that your terminal does not support ANSI escape codes.\nSys.getenv('TERM') returned '%s'.",
                            domain = "R-colorout"), termenv)
-    if(termenv == "" && !silent){
-        warning(msg, call. = FALSE, immediate. = TRUE)
+    if(termenv == ""){
+        if(!silent)
+            warning(msg, call. = FALSE, immediate. = TRUE)
         return(FALSE)
     }
 
     if(termenv == "dumb"){
         if(getOption("colorout.dumb"))
             return(TRUE)
-        if(!is.null(Sys.getenv("INSIDE_EMACS")))
+        if(Sys.getenv("INSIDE_EMACS") != "")
             msg <- paste(msg,
                          gettext("Please, do ?ColorOut to know how to enable the colorizing of R output on Emacs+ESS.",
                                  domain = "R-colorout"), sep = "\n")
