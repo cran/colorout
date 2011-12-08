@@ -1,7 +1,15 @@
+Version 0.9-9 (2011-12-08)
+
+    - Recognize hexadecimal numbers.
+
+    - Use the value of getOption("OutDec") to identify numbers.
+
+    - Do not enable colorization if interactive() == FALSE.
+
 Version 0.9-4 (2011-11-22)
 
-    - Follow the documentation and do not colorize the output on load if
-      Sys.getenv("TERM") == "".
+    - Follow the documentation and do not colorize the output after being
+      loaded if Sys.getenv("TERM") == "".
 
     - Do not crash JGR, RStudio and other GUIs when unloading the 'colorout'
       namespace.

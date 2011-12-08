@@ -2,7 +2,7 @@
 \alias{show256Colors}
 \title{Create and show a table with 256 colors}
 \description{
-  Creates and show a table with 256 colors and their ANSI escape codes.
+  Create and show a table with 256 colors and their ANSI escape codes.
   The table should be displayed in your browser.
   You have to hover the mouse over the colors to see their codes.
 }

@@ -1,10 +1,9 @@
 Package: colorout
-Version: 0.9-4
-Date: 2011-11-22
+Version: 0.9-9
+Date: 2011-12-08
 Title: Colorize R output on terminal emulators
 Author: Jakson Aquino
 Maintainer: Jakson Alves de Aquino <jalvesaq@gmail.com>
-Encoding: UTF-8
 OS_type: unix
 Description: Colorize R output when it is running on a terminal emulator.
    There is no support for Graphical User Interfaces, such as Windows RGui,
@@ -17,6 +16,6 @@ Description: Colorize R output when it is running on a terminal emulator.
    running in interactive mode. Screenshot:
    http://www.lepem.ufc.br/jaa/R_color_output.png
 License: GPL (>= 2)
-Packaged: 2011-11-22 18:37:01 UTC; root
+Packaged: 2011-12-08 10:13:47 UTC; root
 Repository: CRAN
-Date/Publication: 2011-11-23 10:21:43
+Date/Publication: 2011-12-08 20:09:10

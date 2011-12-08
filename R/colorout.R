@@ -30,11 +30,14 @@
 
 testTermForColorOut <- function(silent = FALSE)
 {
-    termenv <- Sys.getenv("TERM")
-    if(termenv != "" && termenv != "dumb")
+    if(getOption("colorout.anyterm"))
         return(TRUE)
 
-    if(getOption("colorout.anyterm"))
+    if(interactive() == FALSE)
+        return(FALSE)
+
+    termenv <- Sys.getenv("TERM")
+    if(termenv != "" && termenv != "dumb")
         return(TRUE)
 
     if(Sys.getenv("INSIDE_EMACS") != "" && getOption("colorout.emacs") == TRUE)
@@ -68,7 +71,7 @@ ColorOut <- function()
         stop(gettext("The output colorization was canceled.",
                      domain = "R-colorout"), call. = FALSE)
 
-    .C("colorout_ColorOutput", PACKAGE="colorout")
+    .C("colorout_ColorOutput", getOption("OutDec"), PACKAGE="colorout")
     return (invisible(NULL))
 }
 

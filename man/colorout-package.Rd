@@ -11,6 +11,8 @@ Colorize R output on terminal emulators
   RKward, JGR, Rcmdr and other interfaces which have their own engine to
   display R output. The functions of this package only work if R is compiled
   for Unix systems and it is running interactively in a terminal emulator.
+  The terminal emulator might have been called by a text editor, such as Vim,
+  Gedit, Kate or Geany.
   Screenshot: http://www.lepem.ufc.br/jaa/R_color_output.png
 }
 \details{
@@ -32,8 +34,9 @@ Colorize R output on terminal emulators
   The function that enables the colorization of R output is \link{ColorOut},
   and it is called automatically when the package is loaded. However, it will
   do nothing if \code{Sys.getenv("TERM")} returns either \code{""} or
-  \code{"dumb"}. You can change this behavior by putting in your
-  \samp{~/.Rprofile} one or more of the following options:
+  \code{"dumb"}. The output will not be colorized also if the result of
+  \code{interactive()} is \code{FALSE}. You can change this behavior by
+  putting in your \samp{~/.Rprofile} one or more of the following options:
 
   \preformatted{
     options(colorout.anyterm = TRUE)
@@ -42,11 +45,12 @@ Colorize R output on terminal emulators
   }
 
   With \code{colorout.anyterm == TRUE}, the package will not check the
-  \samp{TERM} environment variable. If \code{colorout.emacs == TRUE}, the
-  package will look for the environment variable \samp{INSIDE_EMACS} and if it
-  is not empty the package will work regardless of the value of the
-  \samp{TERM} environment variable. Finally, if the value of \samp{TERM} is
-  \samp{"dumb"}, and the colorization of R output was not already enabled by
+  \samp{TERM} environment variable, and it will also not test whether R is
+  running interactively. If \code{colorout.emacs == TRUE}, the package will
+  look for the environment variable \samp{INSIDE_EMACS} and if it is not empty
+  the package will work regardless of the value of the \samp{TERM} environment
+  variable. Finally, if the value of \samp{TERM} is \samp{"dumb"}, and the
+  colorization of R output was not already enabled by
   \samp{colorout.emacs == TRUE}, then you will get colored output only if
   \samp{colorout.dumb == TRUE}.
 
@@ -79,7 +83,9 @@ Colorize R output on terminal emulators
 
 \seealso{
 \link{ColorOut}, \link{noColorOut}, \link{setOutputColors},
-\link{setOutputColors256}, \link{show256Colors}.
+\link{setOutputColors256}, \link{show256Colors}. The package \pkg{setwidth}
+updates the value of \code{options("width")} automatically when the terminal
+is resized.
 }
 \author{
 Jakson Alves de Aquino <jalvesaq@gmail.com>

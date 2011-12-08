@@ -24,19 +24,20 @@
 
 #define R_INTERFACE_PTRS 1
 
-extern void *ptr_R_WriteConsole;
-extern void *ptr_R_WriteConsoleEx;
+extern void (*ptr_R_WriteConsole)(const char *, int);
+extern void (*ptr_R_WriteConsoleEx)(const char *, int, int);
 
+static void (*save_ptr_R_WriteConsole)(const char *, int);
+static void (*save_ptr_R_WriteConsoleEx)(const char *, int, int);
 static void *save_R_Outputfile;
 static void *save_R_Consolefile;
-static void *save_ptr_R_WriteConsole;
-static void *save_ptr_R_WriteConsoleEx;
 
 static char crnormal[32], crnumber[32], crstring[32],
      crconst[32], crstderr[32], crwarn[32], crerror[32];
 static int normalsize, numbersize, stringsize, constsize;
 static int colors_initialized = 0;
 static int colorout_initialized = 0;
+static char OUTDEC;
 
 void colorout_SetColors(char **normal, char **number, char **string,
         char **constant, char **stderror, char **warn, char **error,
@@ -196,10 +197,42 @@ void colorout_R_WriteConsoleEx (const char *buf, int len, int otype)
                 strcat(newbuf, piece);
                 i += 3;
                 j += 3 + normalsize + constsize;
-            } else if(bbuf[i] >= '0' && bbuf[i] <= '9' || (bbuf[i] == '-' && bbuf[i+1] >= '0' && bbuf[i+1] <= '9')){
+            } else if(bbuf[i] == '0' && bbuf[i+1] == 'x' && ((bbuf[i+2] >= '0' && bbuf[i+2] <= '9') ||
+                            (bbuf[i+2] >= 'a' && bbuf[i+2] <= 'f'))){ /* hexadecimal */
                 strcat(newbuf, crnumber);
                 j += numbersize;
-                while(i < len && ((bbuf[i] >= '0' && bbuf[i] <= '9') || bbuf[i] == '.' || bbuf[i] == '-')){
+                newbuf[j] = bbuf[i];
+                newbuf[j+1] = 'x';
+                i += 2;
+                j += 2;
+                while(i < len && ((bbuf[i] >= '0' && bbuf[i] <= '9') || (bbuf[i] >= 'a' && bbuf[i] <= 'f'))){
+                    if(j >= l)
+                        newbuf = colorout_make_bigger(newbuf, &l);
+                    newbuf[j] = bbuf[i];
+                    i++;
+                    j++;
+                }
+                strcat(newbuf, crnormal);
+                j += normalsize;
+            } else if(bbuf[i] == '-' && (bbuf[i+1] >= '0' && bbuf[i+1] <= '9')){
+                strcat(newbuf, crnumber); /* negative numbers */
+                j += numbersize;
+                newbuf[j] = '-';
+                i++;
+                j++;
+                while(i < len && ((bbuf[i] >= '0' && bbuf[i] <= '9') || bbuf[i] == OUTDEC)){
+                    if(j >= l)
+                        newbuf = colorout_make_bigger(newbuf, &l);
+                    newbuf[j] = bbuf[i];
+                    i++;
+                    j++;
+                }
+                strcat(newbuf, crnormal);
+                j += normalsize;
+            } else if(bbuf[i] >= '0' && bbuf[i] <= '9'){
+                strcat(newbuf, crnumber); /* positive numbers */
+                j += numbersize;
+                while(i < len && ((bbuf[i] >= '0' && bbuf[i] <= '9') || bbuf[i] == OUTDEC)){
                     if(j >= l)
                         newbuf = colorout_make_bigger(newbuf, &l);
                     newbuf[j] = bbuf[i];
@@ -238,8 +271,10 @@ void colorout_R_WriteConsoleEx (const char *buf, int len, int otype)
     free(bbuf);
 }
 
-void colorout_ColorOutput()
+void colorout_ColorOutput(char **OutDec)
 {
+    OUTDEC = *OutDec[0];
+
     if(colorout_initialized)
         return;
 
